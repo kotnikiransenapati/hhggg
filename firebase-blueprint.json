@@ -1,0 +1,172 @@
+{
+  "entities": {
+    "produceItem": {
+      "title": "ProduceItem",
+      "description": "Organic farm produce available for direct harvest order",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "name": { "type": "string", "maxLength": 128 },
+        "category": { "type": "string", "maxLength": 32 },
+        "price": { "type": "number" },
+        "unit": { "type": "string", "maxLength": 32 },
+        "farmer": { "type": "string", "maxLength": 128 },
+        "origin": { "type": "string", "maxLength": 128 },
+        "harvestTime": { "type": "string", "maxLength": 64 },
+        "harvestHoursAgo": { "type": "number" },
+        "growerSharePercent": { "type": "number" },
+        "distanceKm": { "type": "number" },
+        "inStock": { "type": "boolean" },
+        "batchId": { "type": "string", "maxLength": 64 },
+        "imageUrl": { "type": "string", "maxLength": 512 },
+        "description": { "type": "string", "maxLength": 512 }
+      },
+      "required": ["id", "name", "category", "price", "unit", "farmer", "origin", "inStock"]
+    },
+    "order": {
+      "title": "Order",
+      "description": "Customer order with smart escrow custody",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "date": { "type": "string", "maxLength": 64 },
+        "subtotal": { "type": "number" },
+        "logisticsFee": { "type": "number" },
+        "platformFee": { "type": "number" },
+        "discount": { "type": "number" },
+        "total": { "type": "number" },
+        "escrowStatus": { "type": "string", "enum": ["Locked", "Inspected & Released", "Refunded"] },
+        "reeferTemp": { "type": "string", "maxLength": 32 },
+        "slot": { "type": "string", "maxLength": 64 },
+        "driverName": { "type": "string", "maxLength": 128 },
+        "vanNumber": { "type": "string", "maxLength": 32 },
+        "eta": { "type": "string", "maxLength": 64 },
+        "rating": { "type": "number" },
+        "reviewComment": { "type": "string", "maxLength": 512 },
+        "userId": { "type": "string", "maxLength": 128 }
+      },
+      "required": ["id", "total", "escrowStatus"]
+    },
+    "farmCluster": {
+      "title": "FarmCluster",
+      "description": "Certified farmer collective cluster",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "name": { "type": "string", "maxLength": 128 },
+        "region": { "type": "string", "maxLength": 128 },
+        "leadFarmer": { "type": "string", "maxLength": 128 },
+        "acres": { "type": "number" },
+        "activeGrowers": { "type": "number" },
+        "soilNpk": { "type": "string", "maxLength": 64 },
+        "pesticideResidue": { "type": "string", "maxLength": 64 },
+        "bio": { "type": "string", "maxLength": 512 }
+      },
+      "required": ["id", "name", "region", "leadFarmer"]
+    },
+    "farmerDispatch": {
+      "title": "FarmerDispatch",
+      "description": "Morning harvest dispatch lot queued for reefer transport",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "farmerId": { "type": "string", "maxLength": 64 },
+        "farmerName": { "type": "string", "maxLength": 128 },
+        "cluster": { "type": "string", "maxLength": 128 },
+        "crop": { "type": "string", "maxLength": 128 },
+        "crates": { "type": "number" },
+        "weightKg": { "type": "number" },
+        "harvestTime": { "type": "string", "maxLength": 64 },
+        "coldClass": { "type": "string", "maxLength": 64 },
+        "vanAssigned": { "type": "string", "maxLength": 64 },
+        "escrowExpected": { "type": "number" },
+        "escrowSettled": { "type": "boolean" },
+        "status": { "type": "string", "enum": ["harvested", "cooling", "in_transit", "delivered"] }
+      },
+      "required": ["id", "crop", "crates", "weightKg", "status"]
+    },
+    "fleetUnit": {
+      "title": "FleetUnit",
+      "description": "Cold-chain refrigerated solar transit van",
+      "type": "object",
+      "properties": {
+        "vanNumber": { "type": "string", "maxLength": 32 },
+        "driverName": { "type": "string", "maxLength": 128 },
+        "driverPhone": { "type": "string", "maxLength": 32 },
+        "currentLocation": { "type": "string", "maxLength": 128 },
+        "currentTempCelsius": { "type": "number" },
+        "targetTempCelsius": { "type": "number" },
+        "humidityPercent": { "type": "number" },
+        "batteryReservePercent": { "type": "number" },
+        "tamperSealIntact": { "type": "boolean" },
+        "status": { "type": "string", "enum": ["optimal", "warning", "critical"] },
+        "lastUpdated": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["vanNumber", "driverName", "currentTempCelsius", "status"]
+    },
+    "supportTicket": {
+      "title": "SupportTicket",
+      "description": "Customer crispness dispute and cold-chain incident ticket",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 64 },
+        "orderId": { "type": "string", "maxLength": 64 },
+        "customerName": { "type": "string", "maxLength": 128 },
+        "issueType": { "type": "string", "maxLength": 64 },
+        "status": { "type": "string", "enum": ["open", "investigating", "resolved", "refunded"] },
+        "priority": { "type": "string", "enum": ["low", "medium", "high", "critical"] },
+        "description": { "type": "string", "maxLength": 512 },
+        "reeferTempAtDelivery": { "type": "number" },
+        "compensationRequested": { "type": "string", "maxLength": 64 },
+        "resolution": { "type": "string", "maxLength": 512 },
+        "createdAt": { "type": "string", "maxLength": 64 }
+      },
+      "required": ["id", "orderId", "customerName", "status", "issueType"]
+    },
+    "userProfile": {
+      "title": "UserProfile",
+      "description": "Patron preferences and escrow wallet balance",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 128 },
+        "address": { "type": "string", "maxLength": 256 },
+        "escrowBalance": { "type": "number" },
+        "dietPreference": { "type": "string", "maxLength": 64 },
+        "harvestAlerts": { "type": "boolean" }
+      },
+      "required": ["uid", "email"]
+    }
+  },
+  "firestore": {
+    "/produce_items/{produceId}": {
+      "schema": "produceItem",
+      "description": "Marketplace organic produce lots catalog"
+    },
+    "/orders/{orderId}": {
+      "schema": "order",
+      "description": "Customer purchase orders held in escrow"
+    },
+    "/farm_clusters/{clusterId}": {
+      "schema": "farmCluster",
+      "description": "Regional farmer cooperatives and soil accreditation"
+    },
+    "/farmer_dispatches/{dispatchId}": {
+      "schema": "farmerDispatch",
+      "description": "Harvest-to-reefer dispatch lots logged by farmer collectives"
+    },
+    "/fleet_telemetry/{vanNumber}": {
+      "schema": "fleetUnit",
+      "description": "Refrigerated cold-chain fleet telematics"
+    },
+    "/support_tickets/{ticketId}": {
+      "schema": "supportTicket",
+      "description": "Escrow arbitration and temperature dispute tickets"
+    },
+    "/users/{userId}": {
+      "schema": "userProfile",
+      "description": "Private user profile and escrow wallet"
+    }
+  }
+}

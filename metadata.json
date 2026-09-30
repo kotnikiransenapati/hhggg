@@ -1,0 +1,7 @@
+{
+  "name": "FarmDirect - 100% Traceable Direct Farm Marketplace & Escrow",
+  "description": "Direct farm-to-doorstep organic marketplace connecting conscious consumers directly with certified smallholder farmer collectives with cold-chain dispatch and escrow protection.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
